@@ -1,5 +1,4 @@
 import React, {useContext} from 'react';
-import Logout from './Logout';
 import { StateContext } from '../context/State';
 
 const Home = () => {
