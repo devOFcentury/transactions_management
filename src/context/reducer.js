@@ -1,27 +1,27 @@
 export function reducer(state, action) {
 
-     const updateTransactionRevenu = state.map((obj) => {
-       if(obj.nameUser === action.nameUser) {
+    const updateTransactionRevenu = state.map((obj) => {
+       if(obj.infoConnexion.password === action.userPassword) {
          return {
-           infoConnexion: obj.infoConnexion,
-           nameUser: obj.nameUser,
-           budget: 0,
-           transactions: {
+          infoConnexion: obj.infoConnexion,
+          nameUser: obj.nameUser,
+          budget: action.budget,
+          transactions: {
              ...obj.transactions,
              revenu: [...obj.transactions.revenu, action.newTransaction]
-           }
-         }
-       }
+          }
+        }
+      }
    
        return obj;
-     });
+    });
    
      const updateTransactionDepense = state.map((obj) => {
-       if(obj.nameUser === action.nameUser) {
+       if(obj.infoConnexion.password === action.userPassword) {
          return {
-           infoConnexion: obj.infoConnexion,
-           nameUser: obj.nameUser,
-           budget: 0,
+          infoConnexion: obj.infoConnexion,
+          nameUser: obj.nameUser,
+          budget: action.budget,
            transactions: {
              ...obj.transactions,
              depense: [...obj.transactions.depense, action.newTransaction]

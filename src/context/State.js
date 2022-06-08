@@ -22,13 +22,21 @@ export default function State({children}) {
   const statePersonalTransaction = initialState();
   const[personalTransaction, dispatch] = useReducer(reducer, statePersonalTransaction);
   
-  function addUser(typeUser, infoConnexion, nameUser, type, newTransaction){
+  function addUser(typeUser, infoConnexion, nameUser){
     dispatch({
       typeUser: typeUser,
       infoConnexion: infoConnexion,
       nameUser: nameUser,
+    })
+  }
+
+  function makeTransaction(typeUser, type, newTransaction, budget,userPassword) {
+    dispatch({
+      typeUser: typeUser,
       type: type,
-      newTransaction: newTransaction
+      newTransaction: newTransaction,
+      budget: budget,
+      userPassword: userPassword
     })
   }
 
@@ -36,7 +44,6 @@ export default function State({children}) {
 
     const regexUser = /^[a-zA-Z]{1,}\w{2,}$/;
     const regexNomEtPrenom = /^[a-zA-Z]{2,}$/;
-    console.log("je suis dans verifValideForm()")
 
     if(connexion && inscription ) {
       return false;
@@ -68,7 +75,10 @@ export default function State({children}) {
   return (
     <StateContext.Provider
       value={{
-        addUser, personalTransaction, isConnected, setIsConnected, verifValideForm, passwordUserConnected, setPasswordUserConnected
+        addUser, personalTransaction, 
+        isConnected, setIsConnected, 
+        verifValideForm, passwordUserConnected, 
+        setPasswordUserConnected, makeTransaction
       }}
     >
       {children}
@@ -76,20 +86,3 @@ export default function State({children}) {
   );
 }
 
-
-
-
-
-
-
-// import React from 'react'
-
-// const State = () => {
-//   return (
-//     <div>
-        
-//     </div>
-//   )
-// }
-
-// export default State
