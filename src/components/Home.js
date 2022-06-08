@@ -1,8 +1,18 @@
-import React from 'react'
+import React, {useContext} from 'react';
+import Logout from './Logout';
+import { StateContext } from '../context/State';
 
 const Home = () => {
+
+
+  const {setIsConnected} = useContext(StateContext);
+  
+
   return (
     <div className='container mt-5'>
+      <div className="signout">
+        <button onClick={() => setIsConnected(false)}>Sign out</button>
+      </div>
       <div className="row mb-5">
           <div className="col-4 offset-8">
             <p className='budget'>Budget: 0 FCFA</p>
