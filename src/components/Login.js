@@ -7,7 +7,7 @@ const Login = () => {
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
 
-    const {personalTransaction, setIsConnected, verifValideForm} = useContext(StateContext);
+    const {personalTransaction, setIsConnected, verifValideForm, setPasswordUserConnected} = useContext(StateContext);
 
     const handleValidate = e => {
         e.preventDefault();
@@ -21,6 +21,7 @@ const Login = () => {
             const findUserAndPasswordInLocalStorage = personalTransaction.find(obj => obj.infoConnexion.user === user && obj.infoConnexion.password === password);
 
             if(findUserAndPasswordInLocalStorage) {
+                setPasswordUserConnected(findUserAndPasswordInLocalStorage.infoConnexion.password);
                 setIsConnected(true);
             } else {
                 alert("Incorrect username or password")

@@ -10,7 +10,7 @@
 .signout {
      display: flex;
      justify-content: flex-end;
-     margin-bottom: 30px;
+     
 }
 
 .signout button {

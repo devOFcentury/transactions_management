@@ -4,17 +4,27 @@ import { StateContext } from '../context/State';
 const Home = () => {
 
 
-  const {setIsConnected} = useContext(StateContext);
+  const {setIsConnected, passwordUserConnected, personalTransaction} = useContext(StateContext);
+
+  const findInfoUserConnected = personalTransaction.find(obj => obj.infoConnexion.password === passwordUserConnected);
+
+  const {nameUser, budget} = findInfoUserConnected;
   
 
   return (
     <div className='container mt-5'>
-      <div className="signout">
-        <button onClick={() => setIsConnected(false)}>Sign out</button>
+      <div className="row mb-5">
+        <div className="col-6">
+          <p className='h2'>{nameUser}</p>
+        </div>
+        <div className="col-6 signout">
+          <button onClick={() => setIsConnected(false)}>Sign out</button>
+        </div>
       </div>
+
       <div className="row mb-5">
           <div className="col-4 offset-8">
-            <p className='budget'>Budget: 0 FCFA</p>
+            <p className='budget'>Budget: {budget} FCFA</p>
           </div>
       </div>
 
