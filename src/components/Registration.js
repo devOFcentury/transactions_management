@@ -1,38 +1,75 @@
-import React from 'react'
+import React, {useState, useContext} from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { StateContext } from '../context/State';
 
 const Registration = () => {
-  return (
-    <div>
-        <div className="container mt-5">
 
-            <form className="border p-5">
-                <h2 className="text-center mb-5">Sign up</h2>
-                
-                <div className="mb-5">
-                    <input type="text" className="form-control" placeholder='lastname' />
-                </div>
+    const {addUser, personalTransaction, verifValideForm} = useContext(StateContext);
 
-                <div className="mb-5">
-                    <input type="text" className="form-control" placeholder='Firstname' />
-                </div>
+    const navigate = useNavigate();
 
-                <div className="mb-5">
-                    <input type="password" className="form-control" placeholder='Username' />
-                </div>
+    const [lastName, setLastName] = useState("")
+    const [firstName, setfirstName] = useState("");
+    const [user, setUser] = useState("");
+    const [password, setPassword] = useState("");
 
-                <div className="mb-5">
-                    <input type="password" className="form-control" placeholder='password' />
-                </div>
 
-                <div className="mb-5 d-flex justify-content-between">
-                    <button type='submit' className='btn btn-success'>Validate</button>
-                    <button className='btn btn-danger'>Cancel</button>
-                </div>
+    const newUser = {
+        lastName: lastName,
+        firstName: firstName,
+        user: user,
+        password: password
+    }
 
-            </form>
+    const handleValidate = e => {
+        e.preventDefault();
+
+        if( verifValideForm(false, true, newUser) ) {
+            const findPasswordInLocalStorage = personalTransaction.find(obj => obj.infoConnexion.password === password);
+
+            if(findPasswordInLocalStorage) {
+                alert("This password already exists please choose another one");
+            } else {
+                addUser("new", newUser, null);
+                navigate("/");
+            }
+        } else {
+            alert("Invalid form please verify your information");
+        }
+    }
+
+    return (
+        <div>
+            <div className="container mt-5">
+
+                <form className="border p-5">
+                    <h2 className="text-center mb-5">Sign up</h2>
+                    
+                    <div className="mb-5">
+                        <input type="text" className="form-control" placeholder='lastname' onChange={e => setLastName(e.target.value)}  />
+                    </div>
+
+                    <div className="mb-5">
+                        <input type="text" className="form-control" placeholder='Firstname' onChange={e => setfirstName(e.target.value)} />
+                    </div>
+
+                    <div className="mb-5">
+                        <input type="text" className="form-control" placeholder='Username' onChange={e => setUser(e.target.value)} />
+                    </div>
+
+                    <div className="mb-5">
+                        <input type="password" className="form-control" placeholder='password' onChange={(e) => setPassword(e.target.value)} />
+                    </div>
+
+                    <div className="mb-5 d-flex justify-content-between">
+                        <button type='submit' className='btn btn-success' onClick={handleValidate}>Validate</button>
+                        <button className='btn btn-danger'><Link className='Link' to="/">Cancel</Link></button>
+                    </div>
+
+                </form>
+            </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default Registration
