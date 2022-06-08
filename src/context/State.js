@@ -6,12 +6,12 @@ export const StateContext = createContext();
 export default function State({children}) {
 
   const savedIsConnected = JSON.parse(localStorage.getItem("isConnected"));
-
-
   const [isConnected, setIsConnected] = useState(savedIsConnected ? savedIsConnected : false);
 
-  const savedPersonalTransaction = JSON.parse(localStorage.getItem("personaltransaction"));
+  const savedPasswordUserConnected = JSON.parse(localStorage.getItem("passwordUserConnected"));
+  const [passwordUserConnected, setPasswordUserConnected] = useState(savedPasswordUserConnected ? savedPasswordUserConnected : "");
 
+  const savedPersonalTransaction = JSON.parse(localStorage.getItem("personaltransaction"));
   function initialState() {
     if(savedPersonalTransaction) {
       return savedPersonalTransaction;
@@ -19,15 +19,14 @@ export default function State({children}) {
       return [];
     }
   }
-
   const statePersonalTransaction = initialState();
-
   const[personalTransaction, dispatch] = useReducer(reducer, statePersonalTransaction);
   
-  function addUser(typeUser, infoConnexion, type, newTransaction){
+  function addUser(typeUser, infoConnexion, nameUser, type, newTransaction){
     dispatch({
       typeUser: typeUser,
       infoConnexion: infoConnexion,
+      nameUser: nameUser,
       type: type,
       newTransaction: newTransaction
     })
@@ -61,14 +60,15 @@ export default function State({children}) {
   useEffect(() => {
     localStorage.setItem("personaltransaction", JSON.stringify(personalTransaction));
     localStorage.setItem("isConnected", JSON.stringify(isConnected));
+    localStorage.setItem("passwordUserConnected", JSON.stringify(passwordUserConnected));
 
-  }, [personalTransaction, isConnected]);
+  }, [personalTransaction, isConnected, passwordUserConnected]);
 
 
   return (
     <StateContext.Provider
       value={{
-        addUser, personalTransaction, isConnected, setIsConnected, verifValideForm
+        addUser, personalTransaction, isConnected, setIsConnected, verifValideForm, passwordUserConnected, setPasswordUserConnected
       }}
     >
       {children}
