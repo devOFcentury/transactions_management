@@ -30,7 +30,7 @@ const Registration = () => {
             if(findPasswordInLocalStorage) {
                 alert("This password already exists please choose another one");
             } else {
-                addUser("new", newUser, `${firstName} ${lastName}` ,null);
+                addUser("new", newUser, `${firstName} ${lastName}`);
                 navigate("/");
             }
         } else {

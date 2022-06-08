@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import { StateContext } from '../context/State';
 
 const Home = () => {
@@ -9,6 +10,30 @@ const Home = () => {
   const findInfoUserConnected = personalTransaction.find(obj => obj.infoConnexion.password === passwordUserConnected);
 
   const {nameUser, budget} = findInfoUserConnected;
+
+  const incomes = findInfoUserConnected.transactions.revenu.map(({date, amount, type}, index) => {
+    return (
+      <div key={index} className="card my-3 bg-info">
+        <div className="card-body">
+          <h5 className="card-title">Date: {date}</h5>
+          <p className='card-text'>Amount: {amount}</p>
+          <button className='btn btn-success'><Link className='Link' to={`/${type}/${index}`}>More</Link></button>
+        </div>
+      </div>
+    )
+  });
+
+  const expenses = findInfoUserConnected.transactions.depense.map(({date, amount, type}, index) => {
+    return (
+      <div key={index} className="card my-3 bg-danger">
+          <div className="card-body">
+              <h5 className="card-title">Date: {date}</h5>
+              <p className='card-text'>Amount: {amount} FCFA</p>
+              <button className='btn btn-success me-auto'><Link className='Link' to={`/${type}/${index}`}>More</Link></button>
+          </div>
+      </div>
+  );
+  })
   
 
   return (
@@ -28,20 +53,20 @@ const Home = () => {
           </div>
       </div>
 
-      <button className='mb-5 btn btn-success'>Faire une transaction</button>
+      <button className='mb-5 btn btn-success'><Link to="/addtransaction" className='Link'>Make a transaction</Link></button>
 
       <div className="row">
         <div className="col-12 col-md-6 col-lg-4 border-end mb-4 mb-lg-none">
-            <h3>Revenu</h3>
-            
+            <h3>Incomes</h3>
+            {incomes}
         </div>
         <div className="col-12 col-md-6 col-lg-4 border-end mb-4 mb-lg-none">
-            <h3>Dépense</h3>
-           
+            <h3>Expenses</h3>
+            {expenses}
         </div>
         <div className="col-12 col-md-6 col-lg-4">
             <h3>Informations Transactions</h3>
-            
+            <Outlet/>
         </div>
       </div>
 
