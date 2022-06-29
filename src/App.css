@@ -1,0 +1,27 @@
+.Link {
+     color: #FFF;
+     text-decoration: none;
+}
+
+.Link:hover {
+     color: #FFF;
+}
+
+.signout {
+     display: flex;
+     justify-content: flex-end;
+     
+}
+
+.signout button {
+     background-color: transparent;
+     color:  red;
+     border: 1px solid red;
+     border-radius: 5px;
+     padding: 5px 10px;
+}
+
+.signout button:hover {
+     background-color: red;
+     color: #FFF;
+}
