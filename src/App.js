@@ -9,7 +9,6 @@ import Informations from "./components/Informations";
 import './App.css';
 
 
-
 function App() {
 
 
