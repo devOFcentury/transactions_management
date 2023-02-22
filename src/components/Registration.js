@@ -1,12 +1,21 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { StateContext } from '../context/State';
 
 const Registration = () => {
 
-    const {addUser, personalTransaction, verifValideForm} = useContext(StateContext);
+    const {
+        addUser, 
+        personalTransaction, 
+        verifValideForm,
+        isConnected
+    } = useContext(StateContext);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isConnected) navigate('/home');
+    },[]);
 
     const [lastName, setLastName] = useState("")
     const [firstName, setfirstName] = useState("");

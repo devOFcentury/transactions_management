@@ -1,39 +1,47 @@
-import React, {useContext} from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React, { useContext, } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { StateContext } from '../context/State';
+import { useUserConnected } from '../customHook/useUserConnected.js';
 
 const Home = () => {
 
+  const {
+    isConnected, 
+    setIsConnected, 
+    passwordUserConnected, 
+    personalTransaction, 
+    setPasswordUserConnected,
+  } = useContext(StateContext);
 
-  const {setIsConnected, passwordUserConnected, personalTransaction} = useContext(StateContext);
-
+  const navigate = useNavigate();
+  
   const findInfoUserConnected = personalTransaction.find(obj => obj.infoConnexion.password === passwordUserConnected);
 
-  const {nameUser, budget} = findInfoUserConnected;
+  const {budget, nameUser} = useUserConnected(isConnected, findInfoUserConnected, true);
 
-  const incomes = findInfoUserConnected.transactions.revenu.map(({date, amount, type}, index) => {
+  const incomes = findInfoUserConnected?.transactions?.revenu?.map(({date, amount, type}, index) => {
     return (
       <div key={index} className="card my-3 bg-info">
         <div className="card-body">
           <h5 className="card-title">Date: {date}</h5>
           <p className='card-text'>Amount: {amount}</p>
-          <button className='btn btn-success'><Link className='Link' to={`/${type}/${index}`}>More</Link></button>
+          <button className='btn btn-success'><Link className='Link' to={`/home/${type}/${index}`}>More</Link></button>
         </div>
       </div>
     )
   });
 
-  const expenses = findInfoUserConnected.transactions.depense.map(({date, amount, type}, index) => {
+  const expenses = findInfoUserConnected?.transactions?.depense?.map(({date, amount, type}, index) => {
     return (
       <div key={index} className="card my-3 bg-danger">
           <div className="card-body">
               <h5 className="card-title">Date: {date}</h5>
               <p className='card-text'>Amount: {amount} FCFA</p>
-              <button className='btn btn-success me-auto'><Link className='Link' to={`/${type}/${index}`}>More</Link></button>
+              <button className='btn btn-success me-auto'><Link className='Link' to={`/home/${type}/${index}`}>More</Link></button>
           </div>
       </div>
   );
-  })
+  });
   
 
   return (
@@ -43,7 +51,10 @@ const Home = () => {
           <p className='h2'>{nameUser}</p>
         </div>
         <div className="col-6 signout">
-          <button onClick={() => setIsConnected(false)}>Sign out</button>
+          <button onClick={() => {
+            setPasswordUserConnected('');
+            setIsConnected(false); navigate('/')
+            }}>Sign out</button>
         </div>
       </div>
 

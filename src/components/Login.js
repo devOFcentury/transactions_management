@@ -1,15 +1,31 @@
-import React, {useState, useContext} from 'react'
-import { Link } from 'react-router-dom';
+import React, {useState, useContext, useEffect} from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { StateContext } from '../context/State';
 
 const Login = () => {
 
+
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
 
-    const {personalTransaction, setIsConnected, verifValideForm, setPasswordUserConnected} = useContext(StateContext);
+    const {
+        personalTransaction,
+        isConnected,
+        setIsConnected, 
+        verifValideForm, 
+        setPasswordUserConnected,
+    } = useContext(StateContext);
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isConnected) navigate('/home');
+    },[]);
+
+
+    
     const handleValidate = e => {
+        
         e.preventDefault();
 
         const infoUserConnexion = {
@@ -23,6 +39,8 @@ const Login = () => {
             if(findUserAndPasswordInLocalStorage) {
                 setPasswordUserConnected(findUserAndPasswordInLocalStorage.infoConnexion.password);
                 setIsConnected(true);
+                navigate('/home')
+
             } else {
                 alert("Incorrect username or password")
             }
