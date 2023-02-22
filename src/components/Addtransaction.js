@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { StateContext } from '../context/State';
+import { useUserConnected } from '../customHook/useUserConnected.js';
 
 const Addtransaction = () => {
 
@@ -9,13 +10,23 @@ const Addtransaction = () => {
      const [amount, setAmount] = useState("");
      const [description, setDescription] = useState("");
 
-     const {personalTransaction, passwordUserConnected, makeTransaction} = useContext(StateContext);
-     const findInfoUserConnected = personalTransaction.find(obj => obj.infoConnexion.password === passwordUserConnected);
-     const {budget} = findInfoUserConnected;
+     const {
+          personalTransaction, 
+          passwordUserConnected,
+          makeTransaction,
+          isConnected,
+     } = useContext(StateContext);
+
 
      const navigate = useNavigate();
+     
+     const findInfoUserConnected = personalTransaction.find(obj => obj.infoConnexion.password === passwordUserConnected);
+
+     const {budget} = useUserConnected(isConnected, findInfoUserConnected, false);
+
 
      const add = e => {
+
           e.preventDefault();
 
           if(date.length !== 0 && type.length !== 0 && amount.length !== 0 && description.length !== 0) {
@@ -34,22 +45,24 @@ const Addtransaction = () => {
                     if(parseAmount <= budget && percentage >= 40) {
                          const newBudget = Number(budget) - parseAmount;
                          makeTransaction("notNew", "depense", transaction, newBudget, passwordUserConnected);
-                         navigate("/");
+                         navigate("/home");
                     }
+                    
                }
 
                if(type === "revenu") {
                     const newBudget = Number(budget) + parseAmount;
                     makeTransaction("notNew", "revenu", transaction, newBudget, passwordUserConnected);
-                    navigate("/");
+                    navigate("/home");
                }
 
           }
+
           else {
                alert("veuillez remplir tous les champs");
           }
+          
      }
-
 
 
   return (
@@ -60,7 +73,10 @@ const Addtransaction = () => {
                     <input onChange={(e) => setDate(e.target.value)} type="date" className="form-control" />
                </div>
                <div className="mb-3 form-floating">
-                    <select onChange={(e) => setType(e.target.options[e.target.selectedIndex].value)} className="form-select">
+                    <select 
+                         onChange={(e) => setType(e.target.options[e.target.selectedIndex].value)}
+                         className="form-select"
+                    >
                          <option value="select">Select the type</option>
                          <option value="depense">Dépense</option>
                          <option value="revenu">Revenu</option>

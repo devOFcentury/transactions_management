@@ -20,23 +20,23 @@ export default function State({children}) {
     }
   }
   const statePersonalTransaction = initialState();
-  const[personalTransaction, dispatch] = useReducer(reducer, statePersonalTransaction);
+  const [personalTransaction, dispatch] = useReducer(reducer, statePersonalTransaction);
   
   function addUser(typeUser, infoConnexion, nameUser){
     dispatch({
-      typeUser: typeUser,
-      infoConnexion: infoConnexion,
-      nameUser: nameUser,
+      typeUser,
+      infoConnexion,
+      nameUser,
     })
   }
 
   function makeTransaction(typeUser, type, newTransaction, budget,userPassword) {
     dispatch({
-      typeUser: typeUser,
-      type: type,
-      newTransaction: newTransaction,
-      budget: budget,
-      userPassword: userPassword
+      typeUser,
+      type,
+      newTransaction,
+      budget,
+      userPassword,
     })
   }
 
