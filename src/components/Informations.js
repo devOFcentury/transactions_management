@@ -11,8 +11,9 @@ const Informations = () => {
 
      let indexParam = parseInt(params.index);
      let typeParam = params.type;
+     
 
-     const revenu = findInfoUserConnected.transactions.revenu.map((transactions, index) => {
+     const revenu = findInfoUserConnected?.transactions?.revenu?.map((transactions, index) => {
           if(index === indexParam) {
                return (
                     <div key={index}>
@@ -39,8 +40,10 @@ const Informations = () => {
                     </div>
                )
           }
-     })
-     const depense = findInfoUserConnected.transactions.depense.map((transactions, index) => {
+          return null;
+     });
+
+     const depense = findInfoUserConnected?.transactions?.depense?.map((transactions, index) => {
           if(index === indexParam) {
                return (
                     <div key={index}>
@@ -67,6 +70,8 @@ const Informations = () => {
                     </div>
                )
           }
+
+          return null;
      });
 
 
@@ -88,4 +93,4 @@ const Informations = () => {
   )
 }
 
-export default Informations
+export default Informations;
